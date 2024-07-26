@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title></title>
+    <link rel="stylesheet" href="normalize.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script>
+      const SEVEN = "";
+      const MONTH = "";
+    </script>
+  </head>
+  <body class="layout">
+    <header class="title layout__title"></header>
+    <main class="layout__main panel">
+      <h1 class="panel__title">Контрольная панель</h1>
+      <section class="unit panel__section">
+        <h2 class="unit__title">Повторные заявки</h2>
+        <a href="./7/7.html">
+          <div class="unit__canvas canvas">
+            <h3 class="canvas__title canvas__title--rep">За 7 дней</h3>
+            <div class="addresses"></div>
+          </div>
+        </a>
+        <a href="./30/30.html">
+          <div class="unit__canvas canvas">
+            <h3 class="canvas__title canvas__title--rep">За 30 дней</h3>
+            <div class="addresses"></div>
+          </div>
+        </a>
+      </section>
+    </main>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        fetch("http://localhost:3000/7")
+          .then((res) => res.json())
+          .then((SEVEN) => {
+            const container = document.querySelectorAll(".addresses")[0];
+            SEVEN.sort(
+              (prev, next) =>
+                next.applications.length - prev.applications.length,
+            )
+              .slice(0, 5)
+              .forEach((item) => {
+                const block = document.createElement("div");
+                block.className = "addresses__wrapper";
+                const addressesCountBlock = document.createElement("div");
+                addressesCountBlock.className = "addresses__count";
+                const addressesAddressBlock = document.createElement("div");
+                addressesAddressBlock.className = "addresses__address";
+                addressesCountBlock.textContent = item.applications.length;
+                addressesAddressBlock.textContent = item.id;
+                block.appendChild(addressesCountBlock);
+                block.appendChild(addressesAddressBlock);
+                container.appendChild(block);
+              });
+          });
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        fetch("http://localhost:3000/30")
+          .then((res) => res.json())
+          .then((MONTH) => {
+            const container = document.querySelectorAll(".addresses")[1];
+            MONTH.sort(
+              (prev, next) =>
+                next.applications.length - prev.applications.length,
+            )
+              .slice(0, 5)
+              .forEach((item) => {
+                const block = document.createElement("div");
+                block.className = "addresses__wrapper";
+                const addressesCountBlock = document.createElement("div");
+                addressesCountBlock.className = "addresses__count";
+                const addressesAddressBlock = document.createElement("div");
+                addressesAddressBlock.className = "addresses__address";
+                addressesCountBlock.textContent = item.applications.length;
+                addressesAddressBlock.textContent = item.id;
+                block.appendChild(addressesCountBlock);
+                block.appendChild(addressesAddressBlock);
+                container.appendChild(block);
+              });
+          });
+      });
+    </script>
+  </body>
+</html>
