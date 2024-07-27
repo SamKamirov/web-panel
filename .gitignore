@@ -1,3 +1,6 @@
 /xlsx-to-json-converter/node_modules
-**.json
+/xlsx-to-json-converter/30.json
+/xlsx-to-json-converter/7.json
+/panel/formatted 30.json
+/panel/formatted 7.json
 **.xlsx

@@ -1,0 +1,4 @@
+{
+  "extends": ["eslint:all", "prettier"],
+  "semi": ["always"]
+}
