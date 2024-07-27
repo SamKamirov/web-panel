@@ -33,7 +33,7 @@
     </main>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        fetch("http://localhost:3000/7")
+        fetch("server/7")
           .then((res) => res.json())
           .then((SEVEN) => {
             const container = document.querySelectorAll(".addresses")[0];
@@ -59,7 +59,7 @@
       });
 
       document.addEventListener("DOMContentLoaded", function () {
-        fetch("http://localhost:3000/30")
+        fetch("server/30")
           .then((res) => res.json())
           .then((MONTH) => {
             const container = document.querySelectorAll(".addresses")[1];
