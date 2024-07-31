@@ -70,7 +70,7 @@ const formatJSON = (path) => {
     }, {});
   };
 
-  const grouped = Object.entries(groupBy(sheet, "Дом"));
+  const grouped = Object.entries(groupBy(sheet, "Адрес"));
 
   let formatted = Array.from(grouped, (item) => {
     return {
