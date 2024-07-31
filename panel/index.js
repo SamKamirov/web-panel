@@ -16,7 +16,9 @@ const replaceAddress = (filename) => {
     if (err) {
       return console.log(err);
     }
-    var result = data.replace(/server/g, `http://${serverAddress}:${PORT}`);
+    var result;
+
+    result = data.replace(/server/g, `http://${serverAddress}:${PORT}`);
 
     fs.writeFile(filename, result, "utf8", function (err) {
       if (err) return console.log(err);
