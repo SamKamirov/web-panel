@@ -86,7 +86,7 @@ const formatJSON = (path) => {
 
   formatted = JSON.stringify(formatted);
 
-  fs.writeFile(`${"../panel/formatted " + newFileName}`, formatted, (err) => {
+  fs.writeFile(`${"../panel/formatted_" + newFileName}`, formatted, (err) => {
     if (err) {
       console.log(err);
     } else {

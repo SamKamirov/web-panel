@@ -6,6 +6,7 @@
     <title></title>
     <link rel="stylesheet" href="normalize.css" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="manifest" href="./manifest.json" />
     <script>
       const SEVEN = "";
       const MONTH = "";
@@ -33,7 +34,7 @@
     </main>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        fetch("server/7")
+        fetch("./formatted_7.json")
           .then((res) => res.json())
           .then((SEVEN) => {
             const container = document.querySelectorAll(".addresses")[0];
@@ -59,7 +60,7 @@
       });
 
       document.addEventListener("DOMContentLoaded", function () {
-        fetch("server/30")
+        fetch("./formatted_30.json")
           .then((res) => res.json())
           .then((MONTH) => {
             const container = document.querySelectorAll(".addresses")[1];

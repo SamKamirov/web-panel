@@ -8,6 +8,8 @@ const INDEX = "./index.html";
 const SEVEN = "./7/7.html";
 const MONTH = "./30/30.html";
 const PORT = 3000;
+const MONTH_FILENAME = "formatted_30.json";
+const SEVEN_FILENAME = "formatted_7.json";
 
 let serverAddress = ip.address();
 
@@ -18,7 +20,7 @@ const replaceAddress = (filename) => {
     }
     var result;
 
-    result = data.replace(/server/g, `http://${serverAddress}:${PORT}`);
+    result = data.replace(/server/g, ``);
 
     fs.writeFile(filename, result, "utf8", function (err) {
       if (err) return console.log(err);

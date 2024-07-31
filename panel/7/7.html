@@ -25,7 +25,7 @@
       const API_TARGET = `https://sukhoilog.smart-uk.ru/index.php?r=admin/appeal/view&id=`;
       const POSTFIX = 30;
 
-      fetch("server")
+      fetch("../config.json")
         .then((res) => res.json())
         .then((data) => {
           const container = document.querySelector(".unit__title");
@@ -38,7 +38,7 @@
           container.appendChild(dateContainer);
         });
 
-      fetch("server/7")
+      fetch("../formatted_7.json")
         .then((res) => res.json())
         .then((SEVEN) => {
           const container = document.querySelectorAll(".addresses")[0];

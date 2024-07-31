@@ -1,6 +1,24 @@
 {
   "short_name": "Панель",
   "name": "Веб-панель",
+  "icons": [
+    {
+      "src": "./images/web-panel-150.svg",
+      "type": "image/svg+xml",
+      "sizes": "150x150"
+    },
+    {
+      "src": "./images/web-panel-192.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192"
+    },
+    {
+      "src": "./images/web-panel-512.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512"
+    }
+  ],
+  "id": "/?source=pwa",
   "start_url": "/?source=pwa",
   "display": "standalone",
   "scope": "/"
