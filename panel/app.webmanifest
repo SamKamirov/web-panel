@@ -1,9 +1,6 @@
 {
-  "name": "Веб-панель",
   "short_name": "Панель",
-  "start_url": "/",
-  "display": "standalone",
-  "scope": "/",
+  "name": "Веб-панель",
   "icons": [
     {
       "src": "./images/web-panel-150.svg",
@@ -19,6 +16,23 @@
       "src": "./images/web-panel-512.svg",
       "type": "image/svg+xml",
       "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "scope": "/",
+  "screenshots": [
+    {
+      "src": "/images/web-panel-540x720.jpg",
+      "type": "image/jpg",
+      "sizes": "540x540",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/images/web-panel-720x540.jpg",
+      "type": "image/jpg",
+      "sizes": "540x540",
+      "form_factor": "wide"
     }
   ]
 }
