@@ -20,7 +20,7 @@
   ],
   "start_url": "/",
   "display": "standalone",
-  "scope": "/",
+  "scope": "/sl/",
   "screenshots": [
     {
       "src": "/images/web-panel-540x720.jpg",
