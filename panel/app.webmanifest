@@ -18,9 +18,9 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "/",
+  "start_url": "/sl",
   "display": "standalone",
-  "scope": "/sl/",
+  "scope": "/",
   "screenshots": [
     {
       "src": "/images/web-panel-540x720.jpg",
