@@ -39,6 +39,15 @@ body {
   margin-bottom: 0;
 }
 
+.date-container {
+  font-size: 14px;
+  margin: 0;
+  padding: 5px;
+  color: #00b303;
+  border: 3px solid #00b303;
+  border-radius: 10px;
+}
+
 .panel__section {
   margin-top: 30px;
 }
@@ -48,6 +57,9 @@ body {
   margin-top: 0;
   margin-bottom: 0;
   position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .unit__title--link a:link,
@@ -63,7 +75,7 @@ body {
   top: 12px;
   font-size: 20px;
   line-height: 0;
-  content: '❮';
+  content: "❮";
 }
 
 .unit__canvas {
@@ -91,7 +103,6 @@ a {
   text-decoration: none;
 }
 
-
 .canvas__title--red {
   padding-left: 17px;
   color: rgb(255, 91, 36);
@@ -105,7 +116,7 @@ a {
   left: 0;
   top: 3px;
   background-color: rgb(255, 90, 36);
-  content: '';
+  content: "";
 }
 
 .canvas__title--bones {
@@ -121,8 +132,8 @@ a {
   top: -3px;
   font-size: 35px;
   line-height: 0;
-  content: '';
-  background-image: url('bones.png');
+  content: "";
+  background-image: url("bones.png");
   background-size: 50%;
   background-repeat: no-repeat;
 }
@@ -135,11 +146,11 @@ a {
   top: 8px;
   font-size: 18px;
   line-height: 0;
-  content: '❯';
+  content: "❯";
 }
 
 .canvas__title--rep {
-/*  padding-left: 17px;*/
+  /*  padding-left: 17px;*/
   color: rgb(255, 91, 36);
 }
 
@@ -162,7 +173,7 @@ a {
   top: 8px;
   font-size: 18px;
   line-height: 0;
-  content: '❯';
+  content: "❯";
 }
 
 .canvas__lead {
@@ -263,3 +274,4 @@ a .addresses__address {
 .addresses__wrapper:not(:first-of-type) {
   margin-top: 7px;
 }
+

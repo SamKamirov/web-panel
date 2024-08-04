@@ -14,6 +14,19 @@
     <script>
       const SEVEN = "";
       const MONTH = "";
+
+      fetch("config.json")
+        .then((res) => res.json())
+        .then((data) => {
+          const container = document.querySelector(".unit__title");
+          const dateContainer = document.createElement("p");
+          dateContainer.className = "date-container";
+
+          const date = data.date;
+          dateContainer.textContent = `Данные на ${date}`;
+
+          container.appendChild(dateContainer);
+        });
     </script>
   </head>
   <body class="layout">
