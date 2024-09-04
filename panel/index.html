@@ -14,6 +14,7 @@
     <script>
       const SEVEN = "";
       const MONTH = "";
+      const DAY = "";
 
       fetch("config.json")
         .then((res) => res.json())
@@ -35,6 +36,12 @@
       <h1 class="panel__title">Контрольная панель</h1>
       <section class="unit panel__section">
         <h2 class="unit__title">Повторные заявки</h2>
+        <a href="./1/1.html">
+          <div class="unit__canvas canvas">
+            <h3 class="canvas__title canvas__title--rep">За сутки</h3>
+            <div class="addresses"></div>
+          </div>
+        </a>
         <a href="./7/7.html">
           <div class="unit__canvas canvas">
             <h3 class="canvas__title canvas__title--rep">За 7 дней</h3>

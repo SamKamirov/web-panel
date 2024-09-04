@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title></title>
+    <link rel="stylesheet" href="normalize.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="layout">
+    <header class="title layout__title"></header>
+    <main class="layout__main panel">
+      <h1 class="panel__title">Контрольная панель</h1>
+      <section class="unit panel__section">
+        <h2 class="unit__title unit__title--link">
+          <a href="../index.html">Повторные заявки</a>
+        </h2>
+        <div class="unit__canvas canvas">
+          <h3 class="canvas__title">За сутки</h3>
+          <div class="addresses"></div>
+        </div>
+      </section>
+    </main>
+    <script>
+      const API_TARGET = `https://sukhoilog.smart-uk.ru/index.php?r=admin/appeal/view&id=`;
+      const POSTFIX = 29;
+
+      fetch("../config.json")
+        .then((res) => res.json())
+        .then((data) => {
+          const container = document.querySelector(".unit__title");
+          const dateContainer = document.createElement("p");
+          dateContainer.className = "date-container";
+
+          const date = data.date;
+          dateContainer.textContent = `Данные на ${date}`;
+
+          container.appendChild(dateContainer);
+        });
+
+      fetch("../formatted_1.json")
+        .then((res) => res.json())
+        .then((MONTH) => {
+          const container = document.querySelectorAll(".addresses")[0];
+
+          MONTH.sort(
+            (prev, next) => next.applications.length - prev.applications.length,
+          ).forEach((item) => {
+            const block = document.createElement("div");
+            const blockList = document.createElement("ul");
+            const addressesBlock = document.createElement("div");
+
+            blockList.className = "addresses__applications-list";
+
+            addressesBlock.addEventListener("click", () => {
+              if (block.contains(blockList)) {
+                block.removeChild(blockList);
+                blockList.innerHTML = "";
+                return;
+              }
+              const applications = item.applications;
+
+              applications.map((element) => {
+                const applicationId = element.id;
+                const applicationIdBlock = document.createElement("li");
+                const applicationText = document.createElement("a");
+
+                applicationIdBlock.className = "application__item";
+                applicationText.className = "application__link";
+
+                applicationText.textContent = applicationId;
+                applicationText.href = `${API_TARGET}${element.id + POSTFIX}`;
+                applicationText.target = "blank";
+
+                applicationIdBlock.appendChild(applicationText);
+                blockList.append(applicationIdBlock);
+              });
+              block.append(blockList);
+            });
+
+            const addressesCountBlock = document.createElement("div");
+            const addressesAddressBlock = document.createElement("div");
+
+            block.className = "addresses__wrapper";
+            addressesCountBlock.className = "addresses__count";
+            addressesAddressBlock.className = "addresses__address";
+            addressesBlock.className = "addresses__content";
+
+            addressesCountBlock.textContent = item.applications.length;
+            addressesAddressBlock.textContent = item.id;
+
+            addressesBlock.appendChild(addressesCountBlock);
+            addressesBlock.appendChild(addressesAddressBlock);
+            block.appendChild(addressesBlock);
+            container.appendChild(block);
+          });
+        });
+    </script>
+  </body>
+</html>

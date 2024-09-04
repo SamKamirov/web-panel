@@ -10,6 +10,7 @@ const ROWS_TO_SKIP = 7;
 let filePath;
 let SEVEN = "./7.xlsx";
 let MONTH = "./30.xlsx";
+let DAY = "./1.xlsx";
 
 process.argv.slice(2).forEach((value) => {
   filePath = value;
@@ -115,6 +116,7 @@ const convertSingleFile = (path) => formatJSON(path);
 const convertAllFiles = () => {
   formatJSON(SEVEN);
   formatJSON(MONTH);
+  formatJSON(DAY);
 };
 
 convertExcelToJSON(filePath);
