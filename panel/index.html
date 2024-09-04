@@ -39,19 +39,19 @@
         <a href="./1/1.html">
           <div class="unit__canvas canvas">
             <h3 class="canvas__title canvas__title--rep">За сутки</h3>
-            <div class="addresses"></div>
+            <div class="addresses addresses--day"></div>
           </div>
         </a>
         <a href="./7/7.html">
           <div class="unit__canvas canvas">
             <h3 class="canvas__title canvas__title--rep">За 7 дней</h3>
-            <div class="addresses"></div>
+            <div class="addresses addresses--seven"></div>
           </div>
         </a>
         <a href="./30/30.html">
           <div class="unit__canvas canvas">
             <h3 class="canvas__title canvas__title--rep">За 30 дней</h3>
-            <div class="addresses"></div>
+            <div class="addresses addresses--month"></div>
           </div>
         </a>
       </section>
@@ -61,7 +61,7 @@
         fetch("./formatted_7.json")
           .then((res) => res.json())
           .then((SEVEN) => {
-            const container = document.querySelectorAll(".addresses")[0];
+            const container = document.querySelector(".addresses--seven");
             SEVEN.sort(
               (prev, next) =>
                 next.applications.length - prev.applications.length,
@@ -81,13 +81,35 @@
                 container.appendChild(block);
               });
           });
-      });
 
-      document.addEventListener("DOMContentLoaded", function () {
         fetch("./formatted_30.json")
           .then((res) => res.json())
           .then((MONTH) => {
-            const container = document.querySelectorAll(".addresses")[1];
+            const container = document.querySelector(".addresses--month");
+            MONTH.sort(
+              (prev, next) =>
+                next.applications.length - prev.applications.length,
+            )
+              .slice(0, 5)
+              .forEach((item) => {
+                const block = document.createElement("div");
+                block.className = "addresses__wrapper";
+                const addressesCountBlock = document.createElement("div");
+                addressesCountBlock.className = "addresses__count";
+                const addressesAddressBlock = document.createElement("div");
+                addressesAddressBlock.className = "addresses__address";
+                addressesCountBlock.textContent = item.applications.length;
+                addressesAddressBlock.textContent = item.id;
+                block.appendChild(addressesCountBlock);
+                block.appendChild(addressesAddressBlock);
+                container.appendChild(block);
+              });
+          });
+
+        fetch("./formatted_1.json")
+          .then((res) => res.json())
+          .then((MONTH) => {
+            const container = document.querySelector(".addresses--day");
             MONTH.sort(
               (prev, next) =>
                 next.applications.length - prev.applications.length,
