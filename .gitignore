@@ -1,4 +1,4 @@
-/xlsx-to-json-converter/**.json
+/xlsx-to-json-converter/*.json
 /panel/formatted*
 **.xlsx
 **/node_modules/
