@@ -1,18 +1,38 @@
 #!/usr/bin/env node
 "use strict";
-const process = require("process");
-const fs = require("node:fs");
+const fs = require("fs");
+const path = require("path");
 const excelToJson = require("convert-excel-to-json");
 
 const ROWS_TO_SKIP = 7;
 const SORT_KEY = "Время создания";
+const FILE_SUBSTRING = "ADocumentJournal";
+const GROUP_BY_FIELD = "Дом";
+const SAVE_PATH = `${__dirname}/public/data/data.json`;
+const DIRECTORY_PATH = "./";
 
-let filePath;
-let MONTH = "./30.xlsx";
+function findFilesWithExtension(directory, extension, searchQuery = "") {
+  return new Promise((resolve) => {
+    fs.readdir(directory, (err, files) => {
+      if (err) {
+        console.error(`Ошибка при чтении директории: ${err.message}`);
+        return;
+      }
 
-process.argv.slice(2).forEach((value) => {
-  filePath = value;
-});
+      const filteredFiles = files.filter(
+        (file) =>
+          path.extname(file).toLowerCase() === `.${extension.toLowerCase()}` &&
+          file.includes(searchQuery),
+      );
+
+      if (filteredFiles.length > 0) {
+        resolve(filteredFiles);
+      } else {
+        console.log(`Подходящих файлов не найдено.`);
+      }
+    });
+  });
+}
 
 const convertFile = (path) => {
   const result = excelToJson({
@@ -44,11 +64,16 @@ const convertFile = (path) => {
 };
 
 const sortByDate = (sheet) => {
-  const converted = sheet.sort(
-    (next, prev) => new Date(prev[SORT_KEY]) - new Date(next[SORT_KEY]),
-  );
+  try {
+    const converted = sheet.sort(
+      (next, prev) => new Date(prev[SORT_KEY]) - new Date(next[SORT_KEY]),
+    );
 
-  return converted;
+    return converted;
+  } catch (e) {
+    console.log("Ошибка. Файл пуст или имеет неверный формат.");
+    process.exit();
+  }
 };
 
 const formatJSON = (path) => {
@@ -67,7 +92,9 @@ const formatJSON = (path) => {
     }, {});
   };
 
-  const groupedAddressesByHouse = Object.entries(groupBy(sheet, "Дом"));
+  const groupedAddressesByHouse = Object.entries(
+    groupBy(sheet, GROUP_BY_FIELD),
+  );
 
   let formatted = Array.from(groupedAddressesByHouse, (item) => {
     return {
@@ -85,7 +112,7 @@ const formatJSON = (path) => {
 
   formatted = JSON.stringify(formatted);
 
-  fs.writeFile(`${"./public/data/data.json"}`, formatted, (err) => {
+  fs.writeFile(SAVE_PATH, formatted, (err) => {
     if (err) {
       console.log(err);
     } else {
@@ -101,6 +128,28 @@ const formatJSON = (path) => {
   );
 };
 
-const convertExcelToJSON = () => formatJSON(MONTH);
+const convertAllFiles = () => {
+  findFilesWithExtension(DIRECTORY_PATH, "xlsx", FILE_SUBSTRING).then((files) =>
+    files.map((file) => formatJSON(file)),
+  );
+};
 
-convertExcelToJSON(filePath);
+const convertSingleFile = (path) => formatJSON(path);
+
+const init = () => {
+  const [firstFile, secondFile] = process.argv.slice(2);
+
+  if (firstFile) {
+    convertSingleFile(firstFile);
+    return;
+  }
+
+  if (firstFile && secondFile) {
+    convertAllFiles();
+    return;
+  }
+
+  convertAllFiles();
+};
+
+init();
