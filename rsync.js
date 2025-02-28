@@ -2,11 +2,9 @@ const Rsync = require("rsync");
 
 const REMOTE = "username@hostname:path/to/static/folder";
 const SOURCE_PATH = `${__dirname}public/data/data.json`;
-const PASSWORD = "";
 
 const rsync = new Rsync()
-  .shell("ssh -i ~/path/to/ssh/key") // Указываем путь к приватному ключу
-  // .shell(`sshpass -p ${PASSWORD} ssh -o StrictHostKeyChecking=no`) // Указываем пароль для сервера
+  .shell("ssh -i ~/path/to/ssh/key")
   .flags("avz")
   .source(SOURCE_PATH)
   .destination(REMOTE);

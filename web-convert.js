@@ -137,15 +137,10 @@ const convertAllFiles = () => {
 const convertSingleFile = (path) => formatJSON(path);
 
 const init = () => {
-  const [firstFile, secondFile] = process.argv.slice(2);
+  const [file] = process.argv.slice(2);
 
-  if (firstFile) {
-    convertSingleFile(firstFile);
-    return;
-  }
-
-  if (firstFile && secondFile) {
-    convertAllFiles();
+  if (file) {
+    convertSingleFile(file);
     return;
   }
 
