@@ -4,7 +4,7 @@ const CONFIG = {
 
   ROWS_TO_SKIP: 7,
   SORT_KEY: "Время создания",
-  FILE_SUBSTRING: "ADocumentJournal",
+  FILE_PATTERN: "ADocumentJournal",
   GROUP_BY_FIELD: "Дом",
   DIRECTORY_PATH: "./",
 };

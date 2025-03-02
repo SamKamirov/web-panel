@@ -1,8 +1,9 @@
 import { ClassNames, DURATION, RANGE, UpdateType } from "../const";
 import { getRangeByDuration } from "../utils";
 import { groupAddressesByDuration } from "../utils/filter";
-import { render, replace } from "../utils/render";
+import { remove, render, replace } from "../utils/render";
 import HeaderView from "../view/header-view";
+import TogglerView from "../view/toggler";
 import UnitListItemView from "../view/unit-list-item-view";
 import UnitListView from "../view/unit-list-view";
 
@@ -10,6 +11,7 @@ export default class Unit {
   #container = null;
   #unitListView = null;
   #headerView = null;
+  #togglerView = null;
 
   #applicationsModel = null;
   #isLoading = true;
@@ -20,6 +22,7 @@ export default class Unit {
     this.#headerView = new HeaderView({ className: ClassNames.DEFAULT });
     this.#applicationsModel = model;
     this.#applicationsModel.addObserver(this.#handleModelChange);
+    this.#togglerView = new TogglerView();
   }
 
   #clearContainer() {
@@ -35,6 +38,7 @@ export default class Unit {
   #renderPageMain() {
     if (!this.#isLoading) {
       render(this.#container, this.#headerView);
+      render(this.#container, this.#togglerView);
       this.#renderUnitItems();
     }
   }
@@ -69,6 +73,7 @@ export default class Unit {
 
   #renderPreviewPage = (range, addresses) => {
     this.#clearComponent(this.#unitListView);
+    remove(this.#togglerView);
 
     const newHeaderComponent = new HeaderView({
       className: ClassNames.UNIT_TITLE_LINK,

@@ -1,4 +1,6 @@
 /* background-color: rgb(255, 90, 36); */
+@import "./normalize.css";
+@import "./toggler.css";
 
 body {
   font-family: system-ui;

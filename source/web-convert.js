@@ -130,7 +130,7 @@ const convertAllFiles = () => {
   findFilesWithExtension(
     CONFIG.DIRECTORY_PATH,
     "xlsx",
-    CONFIG.FILE_SUBSTRING,
+    CONFIG.FILE_PATTERN,
   ).then((files) =>
     files.map((file) => {
       formatJSON(file);
@@ -141,15 +141,31 @@ const convertAllFiles = () => {
 
 const convertSingleFile = (path) => formatJSON(path);
 
-const init = () => {
-  const [file] = process.argv.slice(2);
-
+const convert = (file) => {
   if (file) {
     convertSingleFile(file);
     return;
   }
 
-  convertAllFiles();
+  return convertAllFiles();
 };
+
+const handleModeProp = () => {
+  const [mode, file] = process.argv.slice(2);
+
+  switch (mode) {
+    case "upload":
+      upload();
+      break;
+    case "convert":
+      file ? convert(file) : convert();
+      break;
+    default:
+      convert();
+      break;
+  }
+};
+
+const init = () => handleModeProp();
 
 init();
