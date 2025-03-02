@@ -3,13 +3,10 @@
 const fs = require("fs");
 const path = require("path");
 const excelToJson = require("convert-excel-to-json");
+const { CONFIG } = require("./config/config");
+const { upload } = require("./rsync");
 
-const ROWS_TO_SKIP = 7;
-const SORT_KEY = "Время создания";
-const FILE_SUBSTRING = "ADocumentJournal";
-const GROUP_BY_FIELD = "Дом";
-const SAVE_PATH = `${__dirname}/public/data/data.json`;
-const DIRECTORY_PATH = "./";
+const SAVE_PATH = `${__dirname}/../public/data/data.json`;
 
 function findFilesWithExtension(directory, extension, searchQuery = "") {
   return new Promise((resolve) => {
@@ -38,7 +35,7 @@ const convertFile = (path) => {
   const result = excelToJson({
     sourceFile: `${path}`,
     header: {
-      rows: ROWS_TO_SKIP,
+      rows: CONFIG.ROWS_TO_SKIP,
     },
     columnToKey: {
       A: "N",
@@ -66,7 +63,8 @@ const convertFile = (path) => {
 const sortByDate = (sheet) => {
   try {
     const converted = sheet.sort(
-      (next, prev) => new Date(prev[SORT_KEY]) - new Date(next[SORT_KEY]),
+      (next, prev) =>
+        new Date(prev[CONFIG.SORT_KEY]) - new Date(next[CONFIG.SORT_KEY]),
     );
 
     return converted;
@@ -93,7 +91,7 @@ const formatJSON = (path) => {
   };
 
   const groupedAddressesByHouse = Object.entries(
-    groupBy(sheet, GROUP_BY_FIELD),
+    groupBy(sheet, CONFIG.GROUP_BY_FIELD),
   );
 
   let formatted = Array.from(groupedAddressesByHouse, (item) => {
@@ -121,7 +119,7 @@ const formatJSON = (path) => {
   });
 
   fs.writeFileSync(
-    "./config.json",
+    "../config.json",
     JSON.stringify({
       date: new Date().toLocaleDateString("ru-RU"),
     }),
@@ -129,8 +127,15 @@ const formatJSON = (path) => {
 };
 
 const convertAllFiles = () => {
-  findFilesWithExtension(DIRECTORY_PATH, "xlsx", FILE_SUBSTRING).then((files) =>
-    files.map((file) => formatJSON(file)),
+  findFilesWithExtension(
+    CONFIG.DIRECTORY_PATH,
+    "xlsx",
+    CONFIG.FILE_SUBSTRING,
+  ).then((files) =>
+    files.map((file) => {
+      formatJSON(file);
+      upload();
+    }),
   );
 };
 

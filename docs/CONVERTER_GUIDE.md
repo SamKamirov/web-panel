@@ -20,19 +20,19 @@ Done!
 - Выдайте конвертеру необходимые права
 
 ```bash
-sudo chmod +x ./convert.js
+sudo chmod +x ./web-convert.js
 ```
 
 - Создайте ссылку на файл
 
 ```bash
-sudo ln -s ~/path/to/web-panel/convert.js /usr/local/bin/convert
+sudo ln -s ~/path/to/web-panel/web-convert.js /usr/local/bin/convert
 ```
 
 Done! Теперь вы можете вызывать данный скрипт конвертации из любой точки системы. Просто запустите его
 
 ```bash
-convert
+web-convert
 ```
 
 \* \- необязательно
@@ -40,14 +40,14 @@ convert
 \* - если вы не выполнили шаг с глобализацией, вызов скрипта производится так:
 
 ```bash
-node path/to/web-panel/convert.js
+node path/to/web-panel/web-convert.js
 ```
 
 ## Использование
 
 Скрипт конвертации автоматически сканирует директорию на предмет наличия файлов, в названии которых присутствует строка `ADocumentJournal`.
 
-Данное поведение вы можете изменить в файле `convert.js`, изменив конфигурацию.
+Данное поведение вы можете изменить в файле `web-convert.js`, изменив конфигурацию.
 
 ```js
 const FILE_SUBSTRING = "ADocumentJournal";
@@ -62,10 +62,10 @@ web-panel/
 	|---smth-else
 ```
 
-Данное поведение вы можете изменить в файле `convert.js`, изменив конфигурацию.
+Данное поведение вы можете изменить в файле `web-convert.js`, изменив конфигурацию.
 
 ```js
-const SAVE_PATH = `${__dirname}/public/data/data.json`;
+const SAVE_PATH = `${__dirname}/../public/data/data.json`;
 ```
 
 ### Сценарии
@@ -75,7 +75,7 @@ const SAVE_PATH = `${__dirname}/public/data/data.json`;
 Вы можете использовать конвертер без передачи аргументов -> будут преобразованы все файлы в текущей директории.
 
 ```bash
-convert
+web-convert
 ```
 
 2. С передачей аргументов
@@ -83,6 +83,5 @@ convert
 Вы можете передавать параметры: файлы для конвертации.
 
 ```bash
-convert test.xlsx
+web-convert test.xlsx
 ```
-

@@ -10,11 +10,6 @@ node -v
 
 В случае если `nodejs` не установлен, установите
 
-```bash
-sudo apt update
-sudo apt install nodejs
-```
-
 2. Проверьте, установлен ли у вас `npm`
 
 ```bash
