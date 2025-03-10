@@ -1,4 +1,4 @@
 **.xlsx
 node_modules
-public/data/data.json
 build
+public/data/**.json

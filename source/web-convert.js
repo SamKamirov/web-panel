@@ -5,8 +5,18 @@ const path = require("path");
 const excelToJson = require("convert-excel-to-json");
 const { CONFIG } = require("./config/config");
 const { upload } = require("./rsync");
+const { checkForLocation } = require("./lib");
 
-const SAVE_PATH = `${__dirname}/../public/data/data.json`;
+const SAVE_PATH = `${__dirname}/../public/data`;
+
+const LOCATIONS = {
+  'zar': {
+    path: `${SAVE_PATH}/zar.json`,
+  },
+  'log': {
+    path: `${SAVE_PATH}/log.json`,
+  }
+}
 
 function findFilesWithExtension(directory, extension, searchQuery = "") {
   return new Promise((resolve) => {
@@ -74,7 +84,7 @@ const sortByDate = (sheet) => {
   }
 };
 
-const formatJSON = (path) => {
+const convertJSON = (path) => {
   const convertedFile = convertFile(path);
 
   const convertedJSON = JSON.stringify(convertedFile);
@@ -108,9 +118,11 @@ const formatJSON = (path) => {
     };
   });
 
+  const location = checkForLocation(formatted.slice(0, 5), 'log')
+
   formatted = JSON.stringify(formatted);
 
-  fs.writeFile(SAVE_PATH, formatted, (err) => {
+  fs.writeFile(LOCATIONS[location].path, formatted, (err) => {
     if (err) {
       console.log(err);
     } else {
@@ -131,15 +143,13 @@ const convertAllFiles = () => {
     CONFIG.DIRECTORY_PATH,
     "xlsx",
     CONFIG.FILE_PATTERN,
-  ).then((files) =>
-    files.map((file) => {
-      formatJSON(file);
-      upload();
-    }),
-  );
+  ).then((files) => {
+    files.map((file) => convertJSON(file))
+    upload()
+  });
 };
 
-const convertSingleFile = (path) => formatJSON(path);
+const convertSingleFile = (path) => convertJSON(path);
 
 const convert = (file) => {
   if (file) {
@@ -150,6 +160,16 @@ const convert = (file) => {
   return convertAllFiles();
 };
 
+const displayHelpInfo = () => {
+  console.log('usage: web-converter <command> [<args>]\n')
+  console.log('Commands:')
+  console.log('  convert         - convert all files')
+  console.log('  convert [file]  - convert single file')
+  console.log('  upload          - upload all file')
+  console.log('  upload [file]   - upload single file')
+  console.log('  --help          - get this message')
+}
+
 const handleModeProp = () => {
   const [mode, file] = process.argv.slice(2);
 
@@ -159,6 +179,9 @@ const handleModeProp = () => {
       break;
     case "convert":
       file ? convert(file) : convert();
+      break;
+    case '--help':
+      displayHelpInfo()
       break;
     default:
       convert();

@@ -11,9 +11,7 @@ const renderApplicationsList = (address) => {
               ${item.id} 
             </a>
             <span class="application__type"> (${item.type})</span>
-          </li>
-`,
-    )
+          </li>`)
     .join("");
 };
 

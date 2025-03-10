@@ -14,13 +14,12 @@ const getTogglerTemplate = ({ isToggleChecked }) =>
 export default class TogglerView extends AbstractStatefulView {
   #handleTogglerClick = null;
 
-  constructor({ onClick }) {
+  constructor() {
     super();
-    this._setState({ isToggleChecked: false });
-    this.#handleTogglerClick = onClick;
-    this.element
-      .querySelector("input")
-      .addEventListener("click", this.#handleTogglerClick);
+    // this.#handleTogglerClick = onClick;
+    // this.element
+    //   .querySelector("input")
+    //   .addEventListener("click", this.#handleTogglerClick);
   }
 
   get template() {

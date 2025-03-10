@@ -1,3 +1,4 @@
+import { DATA_FILE } from "../config.js";
 import { UpdateType } from "../const";
 import Observable from "../framework/observer.js";
 
@@ -14,7 +15,7 @@ export default class DataModel extends Observable {
 
   async init() {
     try {
-      const response = await fetch("data/data.json").then(
+      const response = await fetch(DATA_FILE).then(
         (response) => response,
       );
 
