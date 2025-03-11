@@ -32,7 +32,7 @@ sudo ln -s ~/path/to/web-panel/source/web-convert.js /usr/local/bin/web-convert
 Done! Теперь вы можете вызывать данный скрипт конвертации из любой точки системы. Просто запустите его
 
 ```bash
-web-convert
+web-convert --help
 ```
 
 \* \- необязательно
@@ -60,12 +60,6 @@ web-panel/
 	|---public/
 	|		|---data/
 	|---smth-else
-```
-
-Данное поведение вы можете изменить в файле `web-convert.js`, изменив конфигурацию.
-
-```js
-const SAVE_PATH = `${__dirname}/../public/data/data.json`;
 ```
 
 ### Сценарии
