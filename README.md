@@ -45,4 +45,4 @@ npm run build
 
 Done!
 
-[Руководство конвертера](./docs/CONVERT_GUIDE.md)
+[Руководство конвертера](./docs/CONVERTER_GUIDE.md)
