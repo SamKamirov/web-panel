@@ -27,9 +27,6 @@ const executeShell = () => {
       console.log("Files transfer completed successfully");
     },
     function (data) {
-      console.log("Progress:", data.toString());
-    },
-    function (data) {
       console.error("Error:", data.toString());
     },
   );

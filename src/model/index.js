@@ -1,6 +1,7 @@
-import { DATA_FILE } from "../config.js";
 import { UpdateType } from "../const";
 import Observable from "../framework/observer.js";
+
+const DATA_FILE = "data/log.json"
 
 export default class DataModel extends Observable {
   #data = null;
@@ -15,9 +16,7 @@ export default class DataModel extends Observable {
 
   async init() {
     try {
-      const response = await fetch(DATA_FILE).then(
-        (response) => response,
-      );
+      const response = await fetch(DATA_FILE).then((response) => response);
 
       this.#data = await response.json();
       this._notify(UpdateType.INIT);

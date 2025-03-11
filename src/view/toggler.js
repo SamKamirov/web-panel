@@ -1,3 +1,4 @@
+import { UpdateType } from "../const";
 import AbstractStatefulView from "./abstract-stateful-view";
 
 const getTogglerTemplate = ({ isToggleChecked }) =>
@@ -14,15 +15,32 @@ const getTogglerTemplate = ({ isToggleChecked }) =>
 export default class TogglerView extends AbstractStatefulView {
   #handleTogglerClick = null;
 
-  constructor() {
+  constructor({ onClick }) {
     super();
-    // this.#handleTogglerClick = onClick;
-    // this.element
-    //   .querySelector("input")
-    //   .addEventListener("click", this.#handleTogglerClick);
+    this._setState({ isActive: false })
+
+    this.#handleTogglerClick = () => {
+      this._setState({ isActive: !this._state.isActive })
+
+      if (this._state.isActive) {
+        onClick(UpdateType.SWITCH, 'with');
+      } else {
+        onClick(UpdateType.SWITCH, 'without')
+      }
+    };
+
+    this.element.querySelector("input").addEventListener("click", this.#handleTogglerClick);
   }
 
   get template() {
-    return getTogglerTemplate(this._state);
+    return getTogglerTemplate({ isToggleChecked: this._state.isActive });
+  }
+
+  hide() {
+    this.element.classList.add('hidden')
+  }
+
+  show() {
+    this.element.classList.remove('hidden')
   }
 }

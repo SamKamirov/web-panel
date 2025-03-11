@@ -1,7 +1,7 @@
 import { ClassNames, DURATION, RANGE, UpdateType } from "../const";
 import { getRangeByDuration } from "../utils";
 import { groupAddressesByDuration } from "../utils/filter";
-import { remove, render, replace } from "../utils/render";
+import { render, replace } from "../utils/render";
 import HeaderView from "../view/header-view";
 import TogglerView from "../view/toggler";
 import UnitListItemView from "../view/unit-list-item-view";
@@ -14,16 +14,22 @@ export default class Unit {
   #togglerView = null;
 
   #applicationsModel = null;
+  #displayModel = null;
+
   #isLoading = true;
 
-  constructor({ container, model }) {
+  constructor({ container, dataModel, displayModel }) {
     this.#container = container;
     this.#unitListView = new UnitListView();
     this.#headerView = new HeaderView({ className: ClassNames.DEFAULT });
-    this.#applicationsModel = model;
+    this.#applicationsModel = dataModel;
     this.#applicationsModel.addObserver(this.#handleModelChange);
-    this.#togglerView = new TogglerView();
+    this.#displayModel = displayModel;
+    this.#displayModel.addObserver(this.#handleDisplayChange);
+    this.#togglerView = new TogglerView({ onClick: this.#togglerClickHandler });
   }
+
+  #togglerClickHandler = (updateType, mode) => this.#displayModel.setDisplayMode(updateType, mode)
 
   #clearContainer() {
     this.#container.innerHTML = "";
@@ -38,15 +44,22 @@ export default class Unit {
   #renderPageMain() {
     if (!this.#isLoading) {
       render(this.#container, this.#headerView);
+
       render(this.#container, this.#togglerView);
+      this.#togglerView.show();
+
       this.#renderUnitItems();
     }
   }
 
   #renderUnitItems() {
-    this.#renderUnitItem(DURATION.DAY, this.#applicationsModel.applications);
-    this.#renderUnitItem(DURATION.WEEK, this.#applicationsModel.applications);
-    this.#renderUnitItem(DURATION.MONTH, this.#applicationsModel.applications);
+    const displayMode = this.#displayModel.displayMode;
+    const addresses = (displayMode === 'without' ?
+      this.#applicationsModel.applications.groupedByHouse : this.#applicationsModel.applications.groupedByAddress);
+
+    this.#renderUnitItem(DURATION.DAY, addresses);
+    this.#renderUnitItem(DURATION.WEEK, addresses);
+    this.#renderUnitItem(DURATION.MONTH, addresses);
 
     render(this.#container, this.#unitListView);
   }
@@ -73,7 +86,8 @@ export default class Unit {
 
   #renderPreviewPage = (range, addresses) => {
     this.#clearComponent(this.#unitListView);
-    remove(this.#togglerView);
+    this.#togglerView.hide();
+    console.log(addresses)
 
     const newHeaderComponent = new HeaderView({
       className: ClassNames.UNIT_TITLE_LINK,
@@ -91,12 +105,27 @@ export default class Unit {
     render(this.#unitListView.element, unitListItem);
   };
 
+  #renderSwitchedUnitItems() {
+    this.#clearComponent(this.#unitListView)
+    this.#renderUnitItems()
+  }
+
   #handleModelChange = (updateType) => {
     switch (updateType) {
       case UpdateType.INIT:
         this.#isLoading = false;
+        console.log('init')
         this.init();
         break;
     }
   };
+
+  #handleDisplayChange = (updateType) => {
+    switch (updateType) {
+      case UpdateType.SWITCH:
+        this.#isLoading = false;
+        this.#renderSwitchedUnitItems()
+        break;
+    }
+  }
 }

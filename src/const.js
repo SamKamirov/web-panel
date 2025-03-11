@@ -5,7 +5,7 @@ export const RANGE = {
 
 export const UpdateType = {
   INIT: "INIT",
-  MAJOR: "MAJOR",
+  SWITCH: "SWITCH",
 };
 
 export const ClassNames = {

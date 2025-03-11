@@ -12,7 +12,10 @@ const CONFIG = {
   ROWS_TO_SKIP: 7,
   SORT_KEY: "Время создания",
   FILE_PATTERN: "ADocumentJournal",
-  GROUP_BY_FIELD: "Дом",
+  GROUP_BY_FIELDS: {
+    HOUSE: "Дом",
+    ADDRESS: "Адрес"
+  },
   DIRECTORY_PATH: "./",
 };
 

@@ -48,22 +48,22 @@ const convertFile = (path) => {
       rows: CONFIG.ROWS_TO_SKIP,
     },
     columnToKey: {
-      A: "N",
-      B: "Время создания",
-      C: "Автор",
-      D: "Содержание",
-      E: "Тип",
-      F: "Дом",
-      G: "Источник",
-      H: "Заявитель",
-      I: "Помещение",
-      J: "Реакция жильца",
-      K: "Испольнитель",
-      L: "Метка",
-      M: "Комментарий",
-      N: "Адрес",
-      O: "Удобное время",
-      P: "Статус",
+      A: 'N',
+      B: '{{B7}}',
+      C: '{{C7}}',
+      D: '{{D7}}',
+      E: '{{E7}}',
+      F: '{{F7}}',
+      G: '{{G7}}',
+      H: '{{H7}}',
+      I: '{{I7}}',
+      J: '{{J7}}',
+      K: '{{K7}}',
+      L: '{{L7}}',
+      M: '{{M7}}',
+      N: '{{N7}}',
+      O: '{{O7}}',
+      P: '{{P7}}',
     },
   });
 
@@ -100,29 +100,41 @@ const convertJSON = (path) => {
     }, {});
   };
 
-  const groupedAddressesByHouse = Object.entries(
-    groupBy(sheet, CONFIG.GROUP_BY_FIELD),
-  );
+  const formatGroupedAddresses = (addresses) => {
+    return Array.from(addresses, (item) => {
+      return {
+        id: item[0],
+        applications: Array.from(item[1], (element) => {
+          return {
+            id: element["N"],
+            timestamp: element["Время создания"],
+            house: element["Дом"],
+            type: element["Тип"],
+          };
+        }),
+      };
+    });
+  }
 
-  let formatted = Array.from(groupedAddressesByHouse, (item) => {
-    return {
-      id: item[0],
-      applications: Array.from(item[1], (element) => {
-        return {
-          id: element["N"],
-          timestamp: element["Время создания"],
-          house: element["Дом"],
-          type: element["Тип"],
-        };
-      }),
-    };
-  });
+  let addresses = {
+    groupedByHouse: [],
+    groupedByAddress: []
+  };
 
-  const location = checkForLocation(formatted.slice(0, 5), 'log')
+  const groupedAddressesByHouse = Object.entries(groupBy([...sheet], CONFIG.GROUP_BY_FIELDS.HOUSE));
+  const groupedAddressesByAddress = Object.entries(groupBy([...sheet], CONFIG.GROUP_BY_FIELDS.ADDRESS));
 
-  formatted = JSON.stringify(formatted);
+  const formattedGroupedAddressesByHouse = formatGroupedAddresses(groupedAddressesByHouse)
+  const formattedGroupedAddressesByAddress = formatGroupedAddresses(groupedAddressesByAddress)
 
-  fs.writeFile(LOCATIONS[location].path, formatted, (err) => {
+  addresses.groupedByHouse = formattedGroupedAddressesByHouse;
+  addresses.groupedByAddress = formattedGroupedAddressesByAddress;
+
+  const location = checkForLocation(formattedGroupedAddressesByHouse.slice(0, 5), 'log')
+
+  const stringifiedAddresses = JSON.stringify(addresses);
+
+  fs.writeFile(LOCATIONS[location].path, stringifiedAddresses, (err) => {
     if (err) {
       console.log(err);
     } else {
