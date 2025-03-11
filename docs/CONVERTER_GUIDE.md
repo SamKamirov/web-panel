@@ -58,7 +58,7 @@ const FILE_SUBSTRING = "ADocumentJournal";
 ```
 web-panel/
 	|---public/
-	|		|---data/
+	    |---data/
 	|---smth-else
 ```
 
