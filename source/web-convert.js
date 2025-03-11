@@ -155,10 +155,7 @@ const convertAllFiles = () => {
     CONFIG.DIRECTORY_PATH,
     "xlsx",
     CONFIG.FILE_PATTERN,
-  ).then((files) => {
-    files.map((file) => convertJSON(file))
-    upload()
-  });
+  ).then((files) => files.map((file) => convertJSON(file)));
 };
 
 const convertSingleFile = (path) => convertJSON(path);
@@ -169,7 +166,7 @@ const convert = (file) => {
     return;
   }
 
-  return convertAllFiles();
+  convertAllFiles();
 };
 
 const displayHelpInfo = () => {
@@ -187,7 +184,7 @@ const handleModeProp = () => {
 
   switch (mode) {
     case "upload":
-      upload();
+      file ? upload(file) : upload();
       break;
     case "convert":
       file ? convert(file) : convert();
@@ -197,6 +194,7 @@ const handleModeProp = () => {
       break;
     default:
       convert();
+      upload();
       break;
   }
 };
