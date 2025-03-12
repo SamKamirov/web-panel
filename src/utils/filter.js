@@ -1,8 +1,8 @@
 import { DURATION } from "../const";
 
-const filterAddressesByDate = (addresses, duration) => {
-  const today = new Date();
-  const prevDay = new Date(new Date().setDate(today.getDate() - duration));
+const filterAddressesByDate = (addresses, duration, date) => {
+  const today = new Date(date);
+  const prevDay = new Date(new Date(date).setDate(today.getDate() - duration));
   prevDay.setHours(0, 0, 0);
 
   return [
@@ -11,9 +11,10 @@ const filterAddressesByDate = (addresses, duration) => {
         return {
           ...address,
           applications: [...address.applications].filter(
-            (item) =>
-              new Date(item.timestamp) <= today &&
-              new Date(item.timestamp) >= prevDay,
+            (item) => {
+              return new Date(item.timestamp) <= today &&
+                new Date(item.timestamp) >= prevDay
+            }
           ),
         };
       })
@@ -24,11 +25,11 @@ const filterAddressesByDate = (addresses, duration) => {
   ];
 };
 
-export const groupAddressesByDuration = (duration, addresses) => {
+export const groupAddressesByDuration = (duration, addresses, date) => {
   switch (duration) {
     case DURATION.DAY:
     case DURATION.WEEK:
-      return filterAddressesByDate(addresses, duration);
+      return filterAddressesByDate(addresses, duration, date);
     case DURATION.MONTH:
       return [
         ...addresses.sort(

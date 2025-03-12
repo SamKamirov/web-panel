@@ -50,12 +50,12 @@ p {
 }
 
 .date-container {
-  font-size: 14px;
+  font-size: 23px;
   margin: 0;
-  padding: 5px;
-  color: #00b303;
-  border: 3px solid #00b303;
-  border-radius: 10px;
+  /*padding: 5px;*/
+  color: #008000;
+  /*border: 3px solid #00b303;*/
+  /*border-radius: 10px;*/
 }
 
 .panel__section {
@@ -310,4 +310,20 @@ a .addresses__address {
 
 .addresses__applications-list {
   list-style-type: disc;
+}
+
+.recieved {
+  color: red;
+}
+
+.proccessing {
+  color: blue;
+}
+
+.closed {
+  color: green;
+}
+
+.address--closed {
+  background-color: green;
 }

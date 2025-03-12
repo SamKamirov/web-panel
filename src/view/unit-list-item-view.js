@@ -1,26 +1,37 @@
 import { API_TARGET, POSTFIX } from "../config.js";
 import AbstractView from "./abstract.js";
 
+const linkClasses = {
+  "Согласование": 'recieved',
+  "В работе": "proccessing",
+  "Закрыт": "closed"
+}
+
 const renderApplicationsList = (address) => {
   return address.applications
-    .map(
-      (item) => `<li class="application__item">
-            <a class="application__link" 
-              href="${API_TARGET}${item.id + POSTFIX}" 
-              target="blank">
-              ${item.id} 
+    .map((item) => {
+      const className = linkClasses[item.status]
+      return `<li class="application__item">
+            <a class="application__link ${className}"
+              href="${API_TARGET}${item.id + POSTFIX}"
+              target="blank">${item.id}
             </a>
             <span class="application__type"> (${item.type})</span>
-          </li>`)
-    .join("");
+          </li>`
+    }).join("");
 };
 
-const renderApplicationsInfo = (addresses) =>
-  addresses
+const checkAreAllApplicationsClosed = (address) => {
+  return address.applications.every(application => application.status === 'Закрыт')
+}
+
+const renderApplicationsInfo = (addresses) => {
+  return addresses
     .map((address) => {
+      const isAllClosed = checkAreAllApplicationsClosed(address)
       return `<li class="addresses__wrapper">
             <div class="addresses__content">
-              <p class="addresses__count">${address.applications.length}</p>
+              <p class="addresses__count ${isAllClosed ? 'address--closed' : ''}">${address.applications.length}</p>
               <p class="addresses__address">${address.id}</p>
             </div>
               <ul class="addresses__applications-list hidden">
@@ -28,7 +39,8 @@ const renderApplicationsInfo = (addresses) =>
               </ul>
           </li>`;
     })
-    .join("");
+    .join("")
+};
 
 const getUnitItemTemplate = (range, addresses, className) => {
   return `<li class="unit-item unit-item--${addresses.length ? "active" : "hidden"}">
@@ -68,12 +80,13 @@ export default class UnitListItemView extends AbstractView {
 
   #handleAddressClick(e) {
     e.currentTarget
+      .parentElement
       .querySelector(".addresses__applications-list")
       .classList.toggle("hidden");
   }
 
   #addListeners() {
-    const items = this.element.querySelectorAll(".addresses__wrapper");
+    const items = this.element.querySelectorAll(".addresses__content");
 
     items.forEach((item) =>
       item.addEventListener("click", this.#handleAddressClick),

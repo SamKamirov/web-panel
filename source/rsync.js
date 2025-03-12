@@ -21,12 +21,17 @@ const executeShell = () => {
   rsync.execute(
     function (error) {
       if (error) {
-        console.error("Ошибка: файл не существует или есть ошибка в конфигурации.");
+        console.error("Ошибка.", error);
         return;
       }
       console.log("Files transfer completed successfully");
     }
   );
+}
+
+const uploadConfig = () => {
+  rsync.source(`${__dirname}/../../public/data/config.json`)
+  executeShell()
 }
 
 const upload = (file) => {
@@ -36,6 +41,8 @@ const upload = (file) => {
     uploadAllFiles()
     return
   }
+
+  uploadConfig();
 
   rsync.source(path.resolve(file))
   executeShell()

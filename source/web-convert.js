@@ -110,6 +110,7 @@ const convertJSON = (path) => {
             timestamp: element["Время создания"],
             house: element["Дом"],
             type: element["Тип"],
+            status: element["Статус"]
           };
         }),
       };
@@ -142,10 +143,9 @@ const convertJSON = (path) => {
     }
   });
 
-  fs.writeFileSync(
-    "../config.json",
+  fs.writeFileSync(`${SAVE_PATH}/config.json`,
     JSON.stringify({
-      date: new Date().toLocaleDateString("ru-RU"),
+      date: new Date().toLocaleDateString("en", { day: "2-digit", month: "2-digit", year: 'numeric' }).replace(/\//g, '.'),
     }),
   );
 };
