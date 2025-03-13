@@ -47,6 +47,7 @@ Done!
 
 
 ## Настройка окружения
+Перед сборкой проекта и его деплоем, необходимо настроить окружение.
 
 Для настройки окружения панели используется файл `config.js` в корне директории `src`.
 
@@ -65,7 +66,7 @@ export const POSTFIX = 20;
 Для указания названия файла данных, используйте переменную `DATA_FILE` 
 
 ```javascript
-export const DATA_FILE = 'data/log or zar.json';
+export const DATA_FILE = 'data/log.json';
 ```
 
 [Руководство конвертера](./docs/CONVERTER_GUIDE.md)
